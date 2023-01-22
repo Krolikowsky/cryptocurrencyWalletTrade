@@ -13,32 +13,48 @@ function showTopFourCryptocurrency(response){
         const cryprocurrencyFullName = document.createElement("p")
         const cryptocurrencyShortCut = document.createElement("p")
         const cryptocurrencyPriceBox = document.createElement("div")
-        const cryptocurrencyPriceUSD = document.createElement("p")
+        const cryptocurrencyPriceUSDBox = document.createElement("p")
+        const cryptocurrencyChangePercent24 = document.createElement("p")
+        const dashBoardLeftSide = document.createElement("div")
 
-        cryptocurrencyIMG.setAttribute("src", "/image/iconBitcoin.png")
+        cryptocurrencyIMG.setAttribute("src", `/image/icon${response.data[index].id}.png`)
         cryptocurrencyRowBox.classList.add("topCryptocurrency__rowDashboard")
         cryptocurrencyBoxName.classList.add("topCryptocurrency__cryptoName")
         cryprocurrencyFullName.classList.add("paragraphWhite")
         cryptocurrencyShortCut.classList.add("paragraph")
+        cryptocurrencyShortCut.classList.add("topCryptocurrency__paragraphShortcut")
         cryptocurrencyPriceBox.classList.add("topCryptocurrency__price")
-        cryptocurrencyPriceUSD.classList.add("paragraphWhite")
+        cryptocurrencyPriceUSDBox.classList.add("paragraphWhite")
+        cryptocurrencyChangePercent24.classList.add("paragraph")
+        cryptocurrencyChangePercent24.classList.add("topCryptocurrency__paragraphPercent")
+        dashBoardLeftSide.style.display = "flex"
+        dashBoardLeftSide.style.alignItems = "center"
+        dashBoardLeftSide.style.alignContent = "center"
+        cryptocurrencyIMG.style.width = "30px"
+        cryptocurrencyIMG.style.height = "30px"
 
-        let nameCryptocurrency = response.data[index].id.split("-").map((str) => str = str.charAt(0).toUpperCase() + str.substring(1).toLowerCase()).join(" ")
+        let nameCryptocurrency = response.data[index].name
         let shortCutCryptocurrency = response.data[index].symbol.toUpperCase()
-        let cryptocuttencyPriceUSD = response.data[index].priceUsd
-
-        console.log(cryptocuttencyPriceUSD.toFixed(2))
+        let cryptocurrencyPriceUSD = response.data[index].priceUsd * 1
+        let cryptocurrencyChangePercentValue = response.data[index].changePercent24Hr * 1
 
         cryprocurrencyFullName.innerText = nameCryptocurrency
         cryptocurrencyShortCut.innerText = shortCutCryptocurrency
-        cryptocurrencyPriceUSD.innerText = cryptocuttencyPriceUSD
+        cryptocurrencyPriceUSDBox.innerText = `$` + cryptocurrencyPriceUSD.toFixed(2)
+        cryptocurrencyChangePercent24.innerText = cryptocurrencyChangePercentValue.toFixed(2) + `%`
+
+        if(cryptocurrencyChangePercentValue < 0) {
+            cryptocurrencyChangePercent24.classList.add("topCryptocurrency__paragraphPercent--red")
+        }
 
         cryptocurrencyTopDashboard.appendChild(cryptocurrencyRowBox)
-        cryptocurrencyRowBox.appendChild(cryptocurrencyIMG)
-        cryptocurrencyRowBox.appendChild(cryptocurrencyBoxName)
+        cryptocurrencyRowBox.appendChild(dashBoardLeftSide)
+        dashBoardLeftSide.appendChild(cryptocurrencyIMG)
+        dashBoardLeftSide.appendChild(cryptocurrencyBoxName)
         cryptocurrencyBoxName.appendChild(cryprocurrencyFullName)
         cryptocurrencyBoxName.appendChild(cryptocurrencyShortCut)
-        cryptocurrencyBoxName.appendChild(cryptocurrencyPriceBox)
-        cryptocurrencyPriceBox.appendChild(cryptocurrencyPriceUSD)
+        cryptocurrencyRowBox.appendChild(cryptocurrencyPriceBox)
+        cryptocurrencyPriceBox.appendChild(cryptocurrencyPriceUSDBox)
+        cryptocurrencyPriceBox.appendChild(cryptocurrencyChangePercent24)
     }
 }
